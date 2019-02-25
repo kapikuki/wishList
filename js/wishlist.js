@@ -1,5 +1,5 @@
 function queueGenerate(db) {
-    db.collection("tracklist").orderBy("time", "desc").onSnapshot(function(querySnapshot) {
+    db.collection("tracklist").orderBy("time", "asc").onSnapshot(function(querySnapshot) {
         var wishListContainer = document.getElementById("wishListContainer");
         wishListContainer.innerHTML = "";
 
@@ -31,14 +31,18 @@ function queueGenerate(db) {
         var body = table.createTBody();
         body.setAttribute("id", "wishListTBody");
 
+        var counterRow = 0;
+
         //body.className = "";
 
         querySnapshot.forEach(function(doc) {
-            var row = body.insertRow(0);
+            counterRow++;
+
+            var row = body.insertRow(-1);
             row.setAttribute("id", doc.id);
 
             var cell0 = row.insertCell(0);
-            cell0.innerHTML = "#";
+            cell0.innerHTML = counterRow;
 
             var cell1 = row.insertCell(1);
             cell1.innerHTML = doc.data().track;
