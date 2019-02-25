@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Kacper Kukieła">
+
+    <title>Zamów Utwór</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+        apiKey: "AIzaSyA7LXM0zmPEDCVvw00nPQ_6TxJjZcxzzUk",
+        authDomain: "wishlist-e27e0.firebaseapp.com",
+        databaseURL: "https://wishlist-e27e0.firebaseio.com",
+        projectId: "wishlist-e27e0",
+        storageBucket: "wishlist-e27e0.appspot.com",
+        messagingSenderId: "231332211192"
+        };
+        firebase.initializeApp(config);
+        trackList = firebase.firestore();
+
+        trackList.collection("tracklist").onSnapshot(function(querySnapshot) {
+            var wishListContainer = document.getElementById("wishListContainer");
+            wishListContainer.innerHTML = "";
+
+            var sectionWishList = document.createElement("section");
+            sectionWishList.className = "wishList";
+            
+            var rowHead = document.createElement("div");
+            rowHead.className = "row";
+
+            var div1Head = document.createElement("div");
+            div1Head.className = "col-4";
+            var div1Text = document.createTextNode("Utwór");
+            div1Head.appendChild(div1Text);
+
+            var div2Head = document.createElement("div");
+            div2Head.className = "col-4";
+            var div2Text = document.createTextNode("Imię");
+            div2Head.appendChild(div2Text);
+
+            var div3Head = document.createElement("div");
+            div3Head.className = "col-4";
+            var div3Text = document.createTextNode("Komentarz");
+            div3Head.appendChild(div3Text);
+
+            rowHead.appendChild(div1Head);
+            rowHead.appendChild(div2Head);
+            rowHead.appendChild(div3Head);
+
+            wishListContainer.appendChild(rowHead)
+            wishListContainer.appendChild(sectionWishList)
+
+            querySnapshot.forEach(function(doc) {
+                var row = document.createElement("div");
+                row.className = "row";
+                //row.setAttribute("style", "display:table-row");
+
+                var div1 = document.createElement("div");
+                div1.className = "col-4";
+                div1.innerHTML = doc.data().track;
+
+                var div2 = document.createElement("div");
+                div2.className = "col-4";
+                div2.innerHTML = doc.data().name;
+
+                var div3 = document.createElement("div");
+                div3.className = "col-4";
+                div3.innerHTML = doc.data().comment;
+
+                row.appendChild(div1);
+                row.appendChild(div2);
+                row.appendChild(div3);
+
+                //wishListContainer.appendChild(row)
+                sectionWishList.appendChild(row)
+            });
+        });
+
+    </script>
+
+    <div class="container-fluid" id="wrapper">
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="sub/order.html">Zaloguj</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container">
+                <h1 class="mt-4">Kolejka</h1>
+                
+                <div id="wishListContainer"></div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

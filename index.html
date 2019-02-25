@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Kacper Kukieła">
+
+    <title>Zamów Utwór</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+        apiKey: "AIzaSyA7LXM0zmPEDCVvw00nPQ_6TxJjZcxzzUk",
+        authDomain: "wishlist-e27e0.firebaseapp.com",
+        databaseURL: "https://wishlist-e27e0.firebaseio.com",
+        projectId: "wishlist-e27e0",
+        storageBucket: "wishlist-e27e0.appspot.com",
+        messagingSenderId: "231332211192"
+        };
+        firebase.initializeApp(config);
+        db = firebase.firestore();
+
+        
+
+    </script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sub/order.html">Zaloguj</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid" id="wrapper">
+
+
+        <div class="container">
+            <h1 class="mt-4">Kolejka</h1>
+            
+            <div id="wishListContainer" class=table-resposive></div>
+        </div>
+
+        <div class="container">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Zamów utwór
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Zamów utwór</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <span class="input-group-addon">Imię</span>
+                                <input type="text" class="form-control" placeholder="Jan Kowalski" id="orderName">
+                            </div>
+                            <div class="form-group">
+                                <span class="input-group-addon">Utwór</span>
+                                <input type="text" class="form-control" placeholder="Perfekt - Autobiografia" id="orderTitle">
+                            </div>
+
+                            <div class="form-group">
+                                <span class="input-group-addon">Dedykacja</span>
+                                <input type="text" class="form-control" placeholder="dla Kasi" id="orderComment">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                            <button type="submit" class="btn btn-primary" id="orderTrack">Zamów</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- WishList JavaScript -->
+    <script src="js/wishlist.js"></script>
+    <script>
+        // Generate queue
+        queueGenerate(db);
+
+        // Ordering the song
+        document.getElementById("orderTrack").addEventListener("click", function () {
+            var newName = document.getElementById("orderName").value;
+            console.log("Przypisano " + newName)
+            var newTrack = document.getElementById("orderTitle").value;
+            console.log("Przypisano " + newTrack)
+            var newComment = document.getElementById("orderComment").value;
+            console.log("Przypisano " + newComment)
+
+            orderTrack(db,newName,newTrack,newComment);
+            console.log("Odpalono dodawanie tracku");
+        });
+    </script>
+</body>
+</html>
