@@ -61,49 +61,50 @@
             <h1 class="mt-4">Kolejka</h1>
             
             <div id="wishListContainer" class=table-resposive></div>
-        </div>
+        </div>  
+    </div>
+    <!-- /#wrapper -->
 
-        <div class="container">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Zamów utwór
-            </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-top fixed-bottom">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal" id="modalButton">
+            Zamów utwór
+        </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Zamów utwór</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Zamów utwór</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span class="input-group-addon">Imię</span>
+                            <input type="text" class="form-control" placeholder="Jan Kowalski" id="orderName">
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <span class="input-group-addon">Imię</span>
-                                <input type="text" class="form-control" placeholder="Jan Kowalski" id="orderName">
-                            </div>
-                            <div class="form-group">
-                                <span class="input-group-addon">Utwór</span>
-                                <input type="text" class="form-control" placeholder="Perfekt - Autobiografia" id="orderTitle">
-                            </div>
+                        <div class="form-group">
+                            <span class="input-group-addon">Utwór</span>
+                            <input type="text" class="form-control" placeholder="Perfekt - Autobiografia" id="orderTitle">
+                        </div>
 
-                            <div class="form-group">
-                                <span class="input-group-addon">Dedykacja</span>
-                                <input type="text" class="form-control" placeholder="dla Kasi" id="orderComment">
-                            </div>
+                        <div class="form-group">
+                            <span class="input-group-addon">Dedykacja</span>
+                            <input type="text" class="form-control" placeholder="dla Kasi" id="orderComment">
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                            <button type="submit" class="btn btn-primary" id="orderTrack">Zamów</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-primary" id="orderTrack" data-dismiss="modal">Zamów</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /#wrapper -->
+        <!-- /Modal -->
+    </nav>
 
     <!-- Bootstrap core JavaScript -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -127,6 +128,11 @@
 
             orderTrack(db,newName,newTrack,newComment);
             console.log("Odpalono dodawanie tracku");
+
+            var modalButton = document.getElementById("modalButton");
+            modalButton.setAttribute("class", "btn btn-success");
+            modalButton.innerHTML = "Zamówiono";
+            setTimeout(modalButton.setAttribute("disabled", "disabled"), 5000);
         });
     </script>
 </body>
