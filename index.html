@@ -29,7 +29,10 @@
         messagingSenderId: "231332211192"
         };
         firebase.initializeApp(config);
-        db = firebase.firestore();
+
+        // make auth and firestore references
+        const auth = firebase.auth();
+        const db = firebase.firestore();
     </script>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -41,10 +44,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.html">Kolejka</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="admin.html">Panel DJa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modal-login">Zaloguj</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logout">Wyloguj</a>
                 </li>
             </ul>
         </div>
@@ -54,49 +63,83 @@
 
 
         <div class="container">
-            <h1 class="mt-4">Kolejka</h1>
+            <h4 class="mt-4">Kolejka</h4>
             
-            <div id="wishListContainer" class=table-resposive></div>
+            <div id="wishListContainer" class="table-resposive" style="overflow-x"></div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <!-- MODALS -->
+
+            <!-- LOGIN MODAL -->
+            <div id="modal-login" class="modal fade">
+                <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Zamów utwór</h5>
+                        <h5 class="modal-title">Zaloguj się</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <span class="input-group-addon">Imię</span>
-                            <input type="text" class="form-control" placeholder="Jan Kowalski" id="orderName">
-                        </div>
-                        <div class="form-group">
-                            <span class="input-group-addon">Utwór</span>
-                            <input type="text" class="form-control" placeholder="Perfekt - Autobiografia" id="orderTitle">
-                        </div>
-
-                        <div class="form-group">
-                            <span class="input-group-addon">Dedykacja</span>
-                            <input type="text" class="form-control" placeholder="dla Kasi" id="orderComment">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
-                        <button type="submit" class="btn btn-primary" id="orderTrack" data-dismiss="modal">Zamów</button>
+                        <form id="login-form">
+                            <div class="input-field">
+                                <label for="login-email">Email: </label>
+                                <input type="email" id="login-email" required />
+                            </div>
+                            <div class="input-field">
+                                <label for="login-password">Hasło: </label>
+                                <input type="password" id="login-password" required />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                                <button type="submit" class="btn btn-primary">Zaloguj się</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+
+            <!-- ODER A SONG MODAL -->
+            <div class="modal fade" id="modal-orderSong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Zamów utwór</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="order-song-form">
+                                <div class="form-group">
+                                    <span class="input-group-addon">Imię</span>
+                                    <input type="text" class="form-control" placeholder="Jan Kowalski" id="orderName">
+                                </div>
+                                <div class="form-group">
+                                    <span class="input-group-addon">Utwór</span>
+                                    <input type="text" class="form-control" placeholder="Perfekt - Autobiografia" id="orderTitle">
+                                </div>
+                                <div class="form-group">
+                                    <span class="input-group-addon">Dedykacja</span>
+                                    <input type="text" class="form-control" placeholder="dla Kasi" id="orderComment">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                                    <button type="submit" class="btn btn-primary" id="orderTrack">Zamów</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         <!-- /Modal -->
     </div>
     <!-- /#wrapper -->
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-top fixed-bottom">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModal" id="modalButton">
+        <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-orderSong" id="orderTrackButton">
             Zamów utwór
         </button>  
     </nav>
@@ -108,27 +151,11 @@
 
     <!-- WishList JavaScript -->
     <script src="js/wishlist.js"></script>
+    <script src="js/auth.js"></script>
+
     <script>
         // Generate queue
         queueGenerate(db);
-
-        // Ordering the song
-        document.getElementById("orderTrack").addEventListener("click", function () {
-            var newName = document.getElementById("orderName").value;
-            console.log("Przypisano " + newName)
-            var newTrack = document.getElementById("orderTitle").value;
-            console.log("Przypisano " + newTrack)
-            var newComment = document.getElementById("orderComment").value;
-            console.log("Przypisano " + newComment)
-
-            orderTrack(db,newName,newTrack,newComment);
-            console.log("Odpalono dodawanie tracku");
-
-            var modalButton = document.getElementById("modalButton");
-            modalButton.setAttribute("class", "btn btn-block btn-success");
-            modalButton.innerHTML = "Zamówiono";
-            setTimeout(modalButton.setAttribute("disabled", "disabled"), 5000);
-        });
     </script>
 </body>
 </html>

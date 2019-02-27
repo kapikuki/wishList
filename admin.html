@@ -30,7 +30,9 @@
         };
         firebase.initializeApp(config);
 
-        db = firebase.firestore();
+        // make auth and firestore references
+        const auth = firebase.auth();
+        const db = firebase.firestore();
     </script>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -42,10 +44,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.html">Kolejka</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="admin.html">Panel DJa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modal-login">Zaloguj</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logout">Wyloguj</a>
                 </li>
             </ul>
         </div>
@@ -53,11 +61,45 @@
 
     <div class="container-fluid" id="wrapper">
         <div class="container">
-            <h1 class="mt-4">Tutaj będzie panel DJa.</h1>
+            <h4 class="mt-4">Tutaj będzie panel DJa.</h4>
             
             <div id="mainContent"></div>
         </div>
     </div>
+
+    <!-- MODALS -->
+
+        <!-- LOGIN MODAL -->
+        <div id="modal-login" class="modal fade">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Zaloguj się</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form">
+                        <div class="input-field">
+                            <label for="login-email">Email: </label>
+                            <input type="email" id="login-email" required />
+                        </div>
+                        <div class="input-field">
+                            <label for="login-password">Hasło: </label>
+                            <input type="password" id="login-password" required />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                            <button type="submit" class="btn btn-primary">Zaloguj się</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <!-- /MODALS -->
     <!-- /#wrapper -->
 
     <!-- Bootstrap core JavaScript -->
@@ -66,7 +108,8 @@
     <script src="js/bootstrap.min.js"></script>
 
     <!-- WishList JavaScript -->
-    <script src="js/wishlist.js"></script>
+    <script src="js/adminpanel.js"></script>
+    <script src="js/auth.js"></script>
 
     <script>
         getAdminQueue(db);
