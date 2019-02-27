@@ -2,7 +2,9 @@
 auth.onAuthStateChanged(user => {
     if (user) {
         console.log('INFO: user logged in');
+        setupUI(user);
     } else {
+        setupUI();
         console.log('INFO: user logged out');
     }
 });

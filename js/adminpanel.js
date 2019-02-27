@@ -9,26 +9,18 @@ function getAdminQueue(db) {
         table.className = "table table-hover table-striped table-sm";
         table.setAttribute("id", "queueAdminTable");
         
-        var header = table.createTHead();
-        //header.className = "";
+        const header = `
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Utwór</th>
+                    <th>Zamawiający</th>
+                    <th>Usuń</th>
+                </tr>
+            </thead>
+        `;
 
-        var headerRow = header.insertRow(0);
-        //headerRow.className = "";
-
-        var headerCell0 = headerRow.insertCell(0);
-        headerCell0.innerHTML = "#";
-
-        var headerCell1 = headerRow.insertCell(1);
-        headerCell1.innerHTML = "Utwór";
-
-        var headerCell2 = headerRow.insertCell(2);
-        headerCell2.innerHTML = "Zamawiający";
-
-        var headerCell3 = headerRow.insertCell(3);
-        headerCell3.innerHTML = "Dedykacja";
-
-        var headerCell4 = headerRow.insertCell(4);
-        headerCell4.innerHTML = "Usuń";
+        table.innerHTML = header;
 
         mainContent.appendChild(table);
 
@@ -63,7 +55,7 @@ function getAdminQueue(db) {
             let deleteButton = document.createElement("button");
 
             deleteButton.className = "btn btn-sm btn-danger";
-            deleteButton.innerHTML = "&#xE106;";
+            deleteButton.innerHTML = "X";
 
             cell4.appendChild(deleteButton);
             deleteButton.addEventListener("click", (e) => {
